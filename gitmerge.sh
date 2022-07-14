@@ -28,7 +28,6 @@ if [ $isLog -eq 1 ];then
   echo "\033[1;32m------------------------------ git pull origin "$cb" \033[0m"
 fi
 git pull origin "$cb"
-# 检查是否成功
 if [ $? -ne 0 ];then
   echo "\033[1;41m============================== 拉取远程分支 $cb 错误 \033[0m"
   exit $code
@@ -38,7 +37,6 @@ if [ $isLog -eq 1 ];then
   echo "\033[1;32m------------------------------ git push origin "$cb" \033[0m"
 fi
 git push origin "$cb"
-# 检查是否成功
 if [ $? -ne 0 ];then
   echo "\033[1;41m============================== 提交远程分支 $cb 错误 \033[0m"
   exit $code
@@ -50,7 +48,6 @@ if [[ $cb != $tb ]];then
     echo "\033[1;32m------------------------------ git checkout "$tb" \033[0m"
   fi
   git checkout "$tb"
-  # 检查是否成功
   if [ $? -ne 0 ];then
     echo "\033[1;41m============================== 切换到分支 $tb 错误 \033[0m"
     exit $code
@@ -60,17 +57,24 @@ if [[ $cb != $tb ]];then
     echo "\033[1;32m------------------------------ git pull origin "$tb" \033[0m"
   fi
   git pull origin "$tb"
-  # 检查是否成功
   if [ $? -ne 0 ];then
     echo "\033[1;41m============================== 拉取远程分支 $tb 错误 \033[0m"
     exit $code
   fi
-  # 提交当前分支
+  # 将当前分支合并到目标分支
+  if [ $isLog -eq 1 ];then
+    echo "\033[1;32m------------------------------ git merge "$cb" \033[0m"
+  fi
+  git merge "$cb"
+  if [ $? -ne 0 ];then
+    echo "\033[1;41m============================== $tb 合并分支 $cb 错误 \033[0m"
+    exit $code
+  fi
+  # 提交目标分支
   if [ $isLog -eq 1 ];then
     echo "\033[1;32m------------------------------ git push origin "$tb" \033[0m"
   fi
   git push origin "$tb"
-  # 检查是否成功
   if [ $? -ne 0 ];then
     echo "\033[1;41m============================== 提交远程分支 $tb 错误 \033[0m"
     exit $code

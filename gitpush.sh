@@ -28,7 +28,6 @@ if [ $isLog -eq 1 ];then
   echo "\033[1;32m------------------------------ git pull origin "$cb" \033[0m"
 fi
 git pull origin "$cb"
-# 检查是否成功
 if [ $? -ne 0 ];then
   echo "\033[1;41m============================== 拉取远程分支 $cb 错误 \033[0m"
   exit $code
@@ -38,7 +37,6 @@ if [ $isLog -eq 1 ];then
   echo "\033[1;32m------------------------------ git push origin "$cb" \033[0m"
 fi
 git push origin "$cb"
-# 检查是否成功
 if [ $? -ne 0 ];then
   echo "\033[1;41m============================== 提交远程分支 $cb 错误 \033[0m"
   exit $code

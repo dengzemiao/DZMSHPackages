@@ -14,6 +14,9 @@ msg="$1"
 if [[ -z $msg ]];then
   msg="$(date '+%Y-%m-%d %H:%M:%S') 提交优化"
 fi
+# 移除偏移分支(不需要可删除)
+sh gitdeloffset.sh "$cb"
+sh gitdeloffset.sh "$tb"
 # Git
 if [ $isLog -eq 1 ];then
   echo "\033[1;32m------------------------------ git add . \033[0m"

@@ -12,6 +12,8 @@ msg="$1"
 if [[ -z $msg ]];then
   msg="$(date '+%Y-%m-%d %H:%M:%S') 提交优化"
 fi
+# 分支列表
+bs=$(git branch -a)
 # 移除偏移分支(不需要可删除)
 fs=$(ls)
 # 是否存在移除偏移脚本
@@ -28,13 +30,15 @@ if [ $isLog -eq 1 ];then
 fi
 git commit -m "$msg"
 # 拉取当前分支
-if [ $isLog -eq 1 ];then
-  echo "\033[1;32m------------------------------ git pull origin "$cb" \033[0m"
-fi
-git pull origin "$cb"
-if [ $? -ne 0 ];then
-  echo "\033[1;41m============================== 拉取远程分支 $cb 错误 \033[0m"
-  exit $code
+if [[ "$bs" =~ "origin/$cb" ]];then
+  if [ $isLog -eq 1 ];then
+    echo "\033[1;32m------------------------------ git pull origin "$cb" \033[0m"
+  fi
+  git pull origin "$cb"
+  if [ $? -ne 0 ];then
+    echo "\033[1;41m============================== 拉取远程分支 $cb 错误 \033[0m"
+    exit $code
+  fi
 fi
 # 提交当前分支
 if [ $isLog -eq 1 ];then
